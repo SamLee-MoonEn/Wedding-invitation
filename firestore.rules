@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Guestbook collection rules - 단순화된 규칙
+    match /guestbook/{document} {
+      // 모든 사용자가 메시지 읽기 허용
+      allow read: if true;
+      
+      // 모든 사용자가 메시지 작성 허용 (기본 검증만)
+      allow create: if isValidMessage(request.resource.data);
+      
+      // 업데이트와 삭제는 비활성화 (보안상 이유)
+      allow update, delete: if false;
+    }
+    
+    // RSVP collection rules (미래 확장용)
+    match /rsvp/{document} {
+      allow read, write: if true;
+    }
+  }
+}
+
+// 간단한 메시지 검증 함수
+function isValidMessage(data) {
+  return data.keys().hasAll(['name', 'message']) &&
+         data.name is string &&
+         data.message is string &&
+         data.name.size() > 0 &&
+         data.name.size() <= 50 &&
+         data.message.size() > 0 &&
+         data.message.size() <= 200;
+} 

@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for the wedding invitation */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  /* Swiper custom styles */
+  .gallery-swiper {
+    @apply overflow-hidden rounded-lg shadow-lg;
+  }
+  
+  .swiper-pagination-bullet {
+    @apply bg-wedding-gold opacity-50;
+  }
+  
+  .swiper-pagination-bullet-active {
+    @apply opacity-100;
+  }
+  
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply text-wedding-gold;
+  }
+  
+  .swiper-button-next:after,
+  .swiper-button-prev:after {
+    @apply text-sm;
+  }
+  
+  /* Message card styles */
+  .message-card {
+    @apply bg-white p-6 rounded-lg shadow-sm border-l-4 border-wedding-gold;
+  }
+  
+  .message-header {
+    @apply flex justify-between items-center mb-3;
+  }
+  
+  .message-author {
+    @apply font-medium text-wedding-gold;
+  }
+  
+  .message-date {
+    @apply text-sm text-gray-500;
+  }
+  
+  .message-content {
+    @apply text-gray-700 leading-relaxed;
+  }
+  
+  /* Toast styles */
+  .toast-success {
+    @apply bg-green-100 border border-green-400 text-green-700;
+  }
+  
+  .toast-error {
+    @apply bg-red-100 border border-red-400 text-red-700;
+  }
+}
+
+@layer utilities {
+  /* Smooth scrolling for navigation */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+  
+  /* Custom gradient backgrounds */
+  .bg-wedding-gradient {
+    background: linear-gradient(135deg, #fff7f0 0%, #eec6d6 100%);
+  }
+  
+  /* Loading animation */
+  .loading-spinner {
+    @apply inline-block w-4 h-4 border-2 border-wedding-gold border-t-transparent rounded-full animate-spin;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+  }
+} 

@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>우리의 모바일 청첩장</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css" />
+  
+  <style>
+    .font-serif { font-family: 'Noto Serif KR', serif; }
+    .font-display { font-family: 'Playfair Display', serif; }
+    .text-modern-black { color: #000000; }
+    .text-modern-gray { color: #333333; }
+    .bg-modern-black { background-color: #000000; }
+    .bg-modern-gray { background-color: #333333; }
+    .bg-modern-light { background-color: #f8f9fa; }
+    .bg-modern-gradient { background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); }
+    .border-modern-black { border-color: #000000; }
+    .border-modern-gray { border-color: #333333; }
+    
+    html { scroll-behavior: smooth; }
+    
+    /* Swiper Styles */
+    .swiper-pagination-bullet { 
+      background: #000000 !important; 
+      opacity: 0.5;
+      width: 12px !important;
+      height: 12px !important;
+    }
+    .swiper-pagination-bullet-active { 
+      opacity: 1 !important; 
+      background: #000000 !important;
+    }
+    .swiper-button-next, .swiper-button-prev { 
+      color: #000000 !important; 
+      background: rgba(255, 255, 255, 0.9) !important;
+      width: 44px !important;
+      height: 44px !important;
+      border-radius: 50% !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+    .swiper-button-next:hover, .swiper-button-prev:hover {
+      background: rgba(255, 255, 255, 1) !important;
+    }
+    .swiper-button-next::after, .swiper-button-prev::after {
+      font-size: 18px !important;
+      font-weight: bold !important;
+    }
+    
+    /* Modern Gallery Modal */
+    .gallery-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .gallery-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .gallery-modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .gallery-modal-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .gallery-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+    
+    .gallery-modal-close:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+    
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+    
+    .gallery-nav:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .gallery-nav.prev {
+      left: 15px;
+    }
+    
+    .gallery-nav.next {
+      right: 15px;
+    }
+    
+    .gallery-item {
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    
+    .gallery-item:hover {
+      transform: scale(1.02);
+      filter: brightness(0.9);
+    }
+    
+    /* Hero Section Styles */
+    .hero-text {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    
+    .scroll-indicator {
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 53%, 80%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      40%, 43% {
+        transform: translate3d(0, -8px, 0);
+      }
+      70% {
+        transform: translate3d(0, -4px, 0);
+      }
+      90% {
+        transform: translate3d(0, -2px, 0);
+      }
+    }
+    
+    /* Modern Toast Animations */
+    @keyframes slide-down {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -100%);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+    
+    @keyframes slide-up {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+    }
+    
+    .animate-slide-down {
+      animation: slide-down 0.4s ease-out forwards;
+    }
+    
+    /* Toast 컨테이너 기본 스타일 */
+    #toast {
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      font-family: 'Noto Serif KR', serif;
+    }
+    
+    /* Toast 호버 효과 */
+    #toast:hover {
+      transform: translate(-50%, -2px) !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    }
+  </style>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'modern-black': '#000000',
+            'modern-gray': '#333333',
+            'modern-light': '#f8f9fa',
+          },
+          boxShadow: {
+            'toast': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            'toast-error': '0 25px 50px -12px rgba(239, 68, 68, 0.25)',
+          },
+          animation: {
+            'slide-down': 'slide-down 0.4s ease-out forwards',
+            'slide-up': 'slide-up 0.3s ease-in-out forwards',
+          },
+          backdropBlur: {
+            'xs': '2px',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="font-serif bg-modern-gradient min-h-screen">
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-md border-b border-white/20">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-center space-x-6">
+        <a href="#home" class="text-sm text-white hover:text-gray-300 transition-colors">Home</a>
+        <a href="#info" class="text-sm text-white hover:text-gray-300 transition-colors">Info</a>
+        <a href="#gallery" class="text-sm text-white hover:text-gray-300 transition-colors">Gallery</a>
+        <a href="#contact" class="text-sm text-white hover:text-gray-300 transition-colors">Contact</a>
+        <a href="#account" class="text-sm text-white hover:text-gray-300 transition-colors">Gift</a>
+        <a href="#guestbook" class="text-sm text-white hover:text-gray-300 transition-colors">Guestbook</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Home Section -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+      <img src="/assets/cover.jpg" alt="Wedding Cover Photo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="w-full h-full bg-gradient-to-b from-gray-400 to-gray-600 hidden"></div>
+    </div>
+    
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+    
+         <!-- Content -->
+     <div class="relative z-10 text-center px-4 pt-16" data-aos="fade-up">
+       <!-- Large MARRIAGE Text -->
+       <h1 class="font-display text-6xl md:text-8xl lg:text-9xl text-white font-bold mb-8 tracking-wider hero-text">
+         MARRIAGE
+       </h1>
+       
+       <!-- Subtitle -->
+       <div class="space-y-4 text-white hero-text">
+         <p class="text-xl md:text-2xl font-light tracking-wide">
+           Modern Wedding Invitation
+         </p>
+         <div class="w-24 h-px bg-white mx-auto my-6"></div>
+         <p class="font-display text-2xl md:text-3xl tracking-wider">
+           BRIDE & GROOM
+         </p>
+         <p class="text-lg md:text-xl font-light tracking-widest">
+           2025.12.14
+         </p>
+       </div>
+       
+
+     </div>
+  </section>
+
+  <!-- Event Info -->
+  <section id="info" class="py-20 px-4 bg-white">
+    <div class="container mx-auto max-w-4xl">
+      <h2 class="font-display text-3xl text-center text-modern-black mb-12" data-aos="fade-up">Wedding Information</h2>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="text-center" data-aos="fade-up">
+          <div class="bg-gray-50 p-8 rounded-lg shadow-sm border border-gray-200">
+            <h3 class="font-display text-xl text-modern-black mb-4">DATE & TIME</h3>
+            <p class="text-lg mb-2 text-gray-700">2025년 12월 14일 일요일</p>
+            <p class="text-lg mb-4 text-gray-700">오후 3시</p>
+            <button onclick="downloadCalendar()" class="bg-modern-black text-white px-6 py-2 rounded-lg hover:bg-modern-gray transition-colors">
+              📅 Save to Calendar
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center" data-aos="fade-up">
+          <div class="bg-gray-50 p-8 rounded-lg shadow-sm border border-gray-200">
+            <h3 class="font-display text-xl text-modern-black mb-4">LOCATION</h3>
+            <p class="text-lg mb-2 text-gray-700">Wedding Hall</p>
+            <p class="text-gray-600 mb-4">고려스퀘어 웨딩홀</p>
+            <div class="space-y-2">
+              <button onclick="openMap('naver')" class="block w-full border border-modern-black text-modern-black px-4 py-2 rounded-lg hover:bg-modern-black hover:text-white transition-colors">네이버 지도</button>
+              <button onclick="openMap('kakao')" class="block w-full border border-modern-black text-modern-black px-4 py-2 rounded-lg hover:bg-modern-black hover:text-white transition-colors">카카오 지도</button>
+              <button onclick="openMap('google')" class="block w-full border border-modern-black text-modern-black px-4 py-2 rounded-lg hover:bg-modern-black hover:text-white transition-colors">구글 지도</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="py-20 px-4 bg-gray-50">
+    <div class="container mx-auto max-w-4xl">
+      <h2 class="font-display text-3xl text-center text-modern-black mb-12" data-aos="fade-up">Photo Gallery</h2>
+      
+      <!-- Swiper Gallery -->
+      <div class="swiper gallery-swiper overflow-hidden rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="100">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="gallery-item aspect-square bg-gray-200 rounded-lg overflow-hidden shadow-md cursor-pointer" onclick="openGalleryModal(0)">
+              <img src="/assets/gallery01.jpg" alt="Wedding Photo 1" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full hidden items-center justify-center">
+                <div class="text-center">
+                  <div class="text-4xl mb-3">📸</div>
+                  <div class="text-modern-gray text-lg">Photo 01</div>
+                  <div class="text-gray-500 text-sm mt-1">Click to view</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide">
+            <div class="gallery-item aspect-square bg-gray-300 rounded-lg overflow-hidden shadow-md cursor-pointer" onclick="openGalleryModal(1)">
+              <img src="/assets/gallery02.jpg" alt="Wedding Photo 2" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full hidden items-center justify-center">
+                <div class="text-center">
+                  <div class="text-4xl mb-3">🖤</div>
+                  <div class="text-modern-gray text-lg">Photo 02</div>
+                  <div class="text-gray-500 text-sm mt-1">Click to view</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide">
+            <div class="gallery-item aspect-square bg-gray-100 rounded-lg overflow-hidden shadow-md cursor-pointer" onclick="openGalleryModal(2)">
+              <img src="/assets/gallery03.jpg" alt="Wedding Photo 3" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full hidden items-center justify-center">
+                <div class="text-center">
+                  <div class="text-4xl mb-3">🤍</div>
+                  <div class="text-modern-gray text-lg">Photo 03</div>
+                  <div class="text-gray-500 text-sm mt-1">Click to view</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide">
+            <div class="gallery-item aspect-square bg-gray-400 rounded-lg overflow-hidden shadow-md cursor-pointer" onclick="openGalleryModal(3)">
+              <img src="/assets/gallery04.jpg" alt="Wedding Photo 4" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full hidden items-center justify-center">
+                <div class="text-center">
+                  <div class="text-4xl mb-3">💫</div>
+                  <div class="text-modern-gray text-lg">Photo 04</div>
+                  <div class="text-gray-500 text-sm mt-1">Click to view</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide">
+            <div class="gallery-item aspect-square bg-gray-200 rounded-lg overflow-hidden shadow-md cursor-pointer" onclick="openGalleryModal(4)">
+              <img src="/assets/gallery05.jpg" alt="Wedding Photo 5" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full hidden items-center justify-center">
+                <div class="text-center">
+                  <div class="text-4xl mb-3">✨</div>
+                  <div class="text-modern-gray text-lg">Photo 05</div>
+                  <div class="text-gray-500 text-sm mt-1">Click to view</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide">
+            <div class="gallery-item aspect-square bg-gray-300 rounded-lg overflow-hidden shadow-md cursor-pointer" onclick="openGalleryModal(5)">
+              <img src="/assets/gallery06.jpg" alt="Wedding Photo 6" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full hidden items-center justify-center">
+                <div class="text-center">
+                  <div class="text-4xl mb-3">🌟</div>
+                  <div class="text-modern-gray text-lg">Photo 06</div>
+                  <div class="text-gray-500 text-sm mt-1">Click to view</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide">
+            <div class="gallery-item aspect-square bg-gray-100 rounded-lg overflow-hidden shadow-md cursor-pointer" onclick="openGalleryModal(6)">
+              <img src="/assets/gallery07.jpg" alt="Wedding Photo 7" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full hidden items-center justify-center">
+                <div class="text-center">
+                  <div class="text-4xl mb-3">⭐</div>
+                  <div class="text-modern-gray text-lg">Photo 07</div>
+                  <div class="text-gray-500 text-sm mt-1">Click to view</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="swiper-slide">
+            <div class="gallery-item aspect-square bg-gray-400 rounded-lg overflow-hidden shadow-md cursor-pointer" onclick="openGalleryModal(7)">
+              <img src="/assets/gallery08.jpg" alt="Wedding Photo 8" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="w-full h-full hidden items-center justify-center">
+                <div class="text-center">
+                  <div class="text-4xl mb-3">💎</div>
+                  <div class="text-modern-gray text-lg">Photo 08</div>
+                  <div class="text-gray-500 text-sm mt-1">Click to view</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Navigation arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        
+        <!-- Pagination dots -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Gallery Modal -->
+  <div id="gallery-modal" class="gallery-modal">
+    <div class="gallery-modal-content">
+      <button class="gallery-modal-close" onclick="closeGalleryModal()">×</button>
+      <button class="gallery-nav prev" onclick="prevGalleryImage()">‹</button>
+      <button class="gallery-nav next" onclick="nextGalleryImage()">›</button>
+      <div id="modal-image-container" class="w-full h-96 bg-gray-200">
+        <!-- Modal image will be loaded here by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Information -->
+  <section id="contact" class="py-20 px-4 bg-white">
+    <div class="container mx-auto max-w-4xl">
+      <h2 class="font-display text-3xl text-center text-modern-black mb-12" data-aos="fade-up">Contact Information</h2>
+      
+      <!-- 신랑 & 신부 -->
+      <div class="grid grid-cols-2 gap-4 mb-8">
+        <!-- 신랑 -->
+        <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+          <div class="bg-gray-50 p-6 sm:p-8 rounded-lg shadow-sm border border-gray-200">
+            <h3 class="font-display text-lg sm:text-xl text-modern-black mb-2">신랑</h3>
+            <p class="text-base sm:text-lg mb-4 sm:mb-6 text-gray-700">신랑 이름</p>
+            <div class="flex justify-center space-x-3 sm:space-x-4">
+              <button onclick="makeCall('신랑', '010-1234-5678')" class="bg-modern-black text-white p-2 sm:p-3 rounded-full hover:bg-modern-gray transition-colors">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                </svg>
+              </button>
+              <button onclick="sendMessage('신랑', '010-1234-5678')" class="bg-gray-600 text-white p-2 sm:p-3 rounded-full hover:bg-gray-700 transition-colors">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 신부 -->
+        <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+          <div class="bg-gray-50 p-6 sm:p-8 rounded-lg shadow-sm border border-gray-200">
+            <h3 class="font-display text-lg sm:text-xl text-modern-black mb-2">신부</h3>
+            <p class="text-base sm:text-lg mb-4 sm:mb-6 text-gray-700">신부 이름</p>
+            <div class="flex justify-center space-x-3 sm:space-x-4">
+              <button onclick="makeCall('신부', '010-9876-5432')" class="bg-modern-black text-white p-2 sm:p-3 rounded-full hover:bg-modern-gray transition-colors">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                </svg>
+              </button>
+              <button onclick="sendMessage('신부', '010-9876-5432')" class="bg-gray-600 text-white p-2 sm:p-3 rounded-full hover:bg-gray-700 transition-colors">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 혼주 -->
+      <div class="grid grid-cols-2 gap-4">
+        <!-- 신랑 측 혼주 -->
+        <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+          <div class="bg-gray-50 p-6 sm:p-8 rounded-lg shadow-sm border border-gray-200">
+            <h3 class="font-display text-lg sm:text-xl text-modern-black mb-4">신랑 측 혼주</h3>
+            
+            <!-- 아버지 -->
+            <div class="mb-4">
+              <p class="text-sm sm:text-base text-gray-600 mb-1">아버지</p>
+              <p class="text-base sm:text-lg text-gray-700 mb-3">박민수</p>
+              <div class="flex justify-center space-x-2 sm:space-x-3">
+                <button onclick="makeCall('신랑 아버지', '010-1111-2222')" class="bg-modern-black text-white p-2 rounded-full hover:bg-modern-gray transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                  </svg>
+                </button>
+                <button onclick="sendMessage('신랑 아버지', '010-1111-2222')" class="bg-gray-600 text-white p-2 rounded-full hover:bg-gray-700 transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- 어머니 -->
+            <div>
+              <p class="text-sm sm:text-base text-gray-600 mb-1">어머니</p>
+              <p class="text-base sm:text-lg text-gray-700 mb-3">김정숙</p>
+              <div class="flex justify-center space-x-2 sm:space-x-3">
+                <button onclick="makeCall('신랑 어머니', '010-1111-3333')" class="bg-modern-black text-white p-2 rounded-full hover:bg-modern-gray transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                  </svg>
+                </button>
+                <button onclick="sendMessage('신랑 어머니', '010-1111-3333')" class="bg-gray-600 text-white p-2 rounded-full hover:bg-gray-700 transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 신부 측 혼주 -->
+        <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+          <div class="bg-gray-50 p-6 sm:p-8 rounded-lg shadow-sm border border-gray-200">
+            <h3 class="font-display text-lg sm:text-xl text-modern-black mb-4">신부 측 혼주</h3>
+            
+            <!-- 아버지 -->
+            <div class="mb-4">
+              <p class="text-sm sm:text-base text-gray-600 mb-1">아버지</p>
+              <p class="text-base sm:text-lg text-gray-700 mb-3">한희순</p>
+              <div class="flex justify-center space-x-2 sm:space-x-3">
+                <button onclick="makeCall('신부 아버지', '010-3333-4444')" class="bg-modern-black text-white p-2 rounded-full hover:bg-modern-gray transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                  </svg>
+                </button>
+                <button onclick="sendMessage('신부 아버지', '010-3333-4444')" class="bg-gray-600 text-white p-2 rounded-full hover:bg-gray-700 transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- 어머니 -->
+            <div>
+              <p class="text-sm sm:text-base text-gray-600 mb-1">어머니</p>
+              <p class="text-base sm:text-lg text-gray-700 mb-3">이영희</p>
+              <div class="flex justify-center space-x-2 sm:space-x-3">
+                <button onclick="makeCall('신부 어머니', '010-3333-5555')" class="bg-modern-black text-white p-2 rounded-full hover:bg-modern-gray transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                  </svg>
+                </button>
+                <button onclick="sendMessage('신부 어머니', '010-3333-5555')" class="bg-gray-600 text-white p-2 rounded-full hover:bg-gray-700 transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Account Info -->
+  <section id="account" class="py-20 px-4 bg-white">
+    <div class="container mx-auto max-w-4xl">
+      <h2 class="font-display text-3xl text-center text-modern-black mb-12" data-aos="fade-up">Wedding Gift</h2>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="text-center" data-aos="fade-up">
+          <div class="bg-gray-50 p-8 rounded-lg shadow-sm border border-gray-200">
+            <h3 class="font-display text-xl text-modern-black mb-4">GROOM</h3>
+            <p class="text-lg mb-2 text-gray-700">OO Bank</p>
+            <p class="text-lg mb-4 font-mono text-modern-black">123-456-789012</p>
+            <p class="text-gray-600 mb-4">신랑 이름</p>
+            <button onclick="copyAccount('123-456-789012')" class="bg-modern-black text-white px-6 py-2 rounded-lg hover:bg-modern-gray transition-colors">
+              📋 Copy Account
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center" data-aos="fade-up">
+          <div class="bg-gray-50 p-8 rounded-lg shadow-sm border border-gray-200">
+            <h3 class="font-display text-xl text-modern-black mb-4">BRIDE</h3>
+            <p class="text-lg mb-2 text-gray-700">XX Bank</p>
+            <p class="text-lg mb-4 font-mono text-modern-black">987-654-321098</p>
+            <p class="text-gray-600 mb-4">신부 이름</p>
+            <button onclick="copyAccount('987-654-321098')" class="bg-modern-black text-white px-6 py-2 rounded-lg hover:bg-modern-gray transition-colors">
+              📋 Copy Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guestbook -->
+  <section id="guestbook" class="py-20 px-4 bg-gray-50">
+    <div class="container mx-auto max-w-4xl">
+      <h2 class="font-display text-3xl text-center text-modern-black mb-12" data-aos="fade-up">Guest Book</h2>
+      
+
+      
+      <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-200 mb-8" data-aos="fade-up">
+        <form id="guestbook-form">
+          <div class="grid md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Name *</label>
+              <input type="text" id="guest-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Password (Optional)</label>
+              <input type="password" id="guest-password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent">
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+            <textarea id="guest-message" class="w-full px-3 py-2 border border-gray-300 rounded-lg h-24 focus:ring-2 focus:ring-gray-400 focus:border-transparent" maxlength="200" required placeholder="Leave your congratulations message..."></textarea>
+            <div class="text-right text-sm text-gray-500 mt-1">
+              <span id="message-count">0</span>/200
+            </div>
+          </div>
+          <button type="submit" class="w-full bg-modern-black text-white py-3 rounded-lg hover:bg-modern-gray transition-colors">
+            ✍️ Leave Message
+          </button>
+        </form>
+      </div>
+
+      <div id="messages-container" class="space-y-4">
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-black">
+          <div class="flex justify-between items-center mb-3">
+            <span class="font-medium text-modern-black">김친구</span>
+            <span class="text-sm text-gray-500">2024.12.22</span>
+          </div>
+          <div class="text-gray-700">결혼을 진심으로 축하드립니다! 두 분의 앞날에 행복이 가득하길 바라요. 🖤</div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-black">
+          <div class="flex justify-between items-center mb-3">
+            <span class="font-medium text-modern-black">박동료</span>
+            <span class="text-sm text-gray-500">2024.12.22</span>
+          </div>
+          <div class="text-gray-700">와! 드디어 결혼하시는군요! 정말 축하드려요. 꼭 참석해서 축하해드릴게요! 🤍</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Share -->
+  <section class="py-20 px-4 bg-white">
+    <div class="container mx-auto max-w-md text-center">
+      <h2 class="font-display text-2xl text-modern-black mb-8" data-aos="fade-up">Share Invitation</h2>
+      <div class="space-y-4" data-aos="fade-up">
+        <button onclick="shareKakao()" class="w-full bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-900 transition-colors">
+          💬 Share via KakaoTalk
+        </button>
+        <button onclick="shareNative()" class="w-full border border-modern-black text-modern-black py-3 rounded-lg hover:bg-modern-black hover:text-white transition-colors">
+          📱 Share via Other Apps
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 px-4 bg-modern-black text-white text-center">
+    <p class="font-display">Thank you for celebrating with us! 🖤</p>
+  </footer>
+
+  <div id="toast" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 hidden"></div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script>
+  
+  <!-- Firebase SDKs (CDN) -->
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      query, 
+      orderBy, 
+      onSnapshot,
+      serverTimestamp 
+    } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+
+    // Import Firebase config
+    import { firebaseConfig, validateMessage } from './firebase-config.js';
+
+    // Firebase 초기화
+    let app, db;
+    let isFirebaseConnected = false;
+    
+    try {
+      app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      isFirebaseConnected = true;
+      console.log('✅ Firebase 초기화 성공');
+      console.log('📋 프로젝트 ID:', firebaseConfig.projectId);
+      
+      // 방명록 메시지 로드 (연결 테스트 포함)
+      loadGuestbookMessages();
+    } catch (error) {
+      console.error('❌ Firebase 초기화 실패:', error);
+      console.error('📋 설정 정보:', firebaseConfig);
+      isFirebaseConnected = false;
+      showLocalMode();
+      showToast('Firebase 연결에 실패했습니다. 로컬 모드로 작동합니다.', 'error');
+    }
+
+
+
+    // Firebase 방명록 함수들
+    function loadGuestbookMessages() {
+      if (!isFirebaseConnected) {
+        console.log('Firebase가 연결되지 않아 로컬 모드로 작동합니다.');
+        return;
+      }
+      
+      console.log('🔄 Firestore에서 메시지 로드 시작...');
+      const messagesContainer = document.getElementById('messages-container');
+      
+      try {
+        const q = query(collection(db, 'guestbook'), orderBy('createdAt', 'desc'));
+        
+        onSnapshot(q, (snapshot) => {
+          console.log('✅ Firestore 쿼리 성공, 메시지 수:', snapshot.size);
+          messagesContainer.innerHTML = '';
+          
+          if (snapshot.empty) {
+            messagesContainer.innerHTML = `
+              <div class="text-center py-12 text-gray-500">
+                <p>첫 번째 축하 메시지를 남겨주세요! 💌</p>
+                <p class="text-sm mt-2 text-green-600">✅ Firebase 연결이 정상 작동 중입니다.</p>
+              </div>
+            `;
+            return;
+          }
+          
+          snapshot.forEach((doc) => {
+            const message = doc.data();
+            const messageElement = createFirebaseMessageElement(message);
+            messagesContainer.appendChild(messageElement);
+          });
+        }, (error) => {
+          console.error('❌ Firestore 쿼리 에러:', error);
+          console.error('에러 코드:', error.code);
+          console.error('에러 메시지:', error.message);
+          
+          // 구체적인 에러 메시지 표시
+          let errorMessage = 'Firebase 연결 오류가 발생했습니다.';
+          if (error.code === 'permission-denied') {
+            errorMessage = 'Firestore 접근 권한이 없습니다. 보안 규칙을 확인해주세요.';
+          } else if (error.code === 'unavailable') {
+            errorMessage = 'Firestore 서비스에 연결할 수 없습니다. 네트워크를 확인해주세요.';
+          } else if (error.code === 'not-found') {
+            errorMessage = 'Firestore 데이터베이스를 찾을 수 없습니다. 프로젝트 설정을 확인해주세요.';
+          }
+          
+          showToast(errorMessage, 'error');
+          showLocalMode();
+        });
+        
+      } catch (error) {
+        console.error('❌ 쿼리 생성 실패:', error);
+        showToast('데이터베이스 쿼리 생성에 실패했습니다.', 'error');
+        showLocalMode();
+      }
+    }
+
+    function createFirebaseMessageElement(message) {
+      const div = document.createElement('div');
+      div.className = 'bg-white p-6 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-black message-card';
+      
+      const createdAt = message.createdAt ? 
+        new Date(message.createdAt.toMillis()).toLocaleDateString('ko-KR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }) : 'Just now';
+      
+      div.innerHTML = `
+        <div class="flex justify-between items-center mb-3">
+          <span class="font-medium text-modern-black">${escapeHtml(message.name)}</span>
+          <span class="text-sm text-gray-500">${createdAt}</span>
+        </div>
+        <div class="text-gray-700">${escapeHtml(message.message)}</div>
+      `;
+      
+      return div;
+    }
+
+    // 폼 제출 처리 (Firebase)
+    document.getElementById('guestbook-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const nameInput = document.getElementById('guest-name');
+      const passwordInput = document.getElementById('guest-password');
+      const messageInput = document.getElementById('guest-message');
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      
+      const name = nameInput.value.trim();
+      const password = passwordInput.value;
+      const message = messageInput.value.trim();
+      
+      // 유효성 검사
+      const validation = validateMessage(name, message);
+      if (!validation.isValid) {
+        showToast(validation.errors[0], 'error');
+        return;
+      }
+      
+      try {
+        submitButton.disabled = true;
+        submitButton.innerHTML = `
+          <div class="flex items-center justify-center">
+            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+            등록 중...
+          </div>
+        `;
+        
+        if (isFirebaseConnected) {
+          // Firebase에 저장
+          await addDoc(collection(db, 'guestbook'), {
+            name,
+            message,
+            password: password || null,
+            createdAt: serverTimestamp(),
+            timestamp: Date.now()
+          });
+          
+          showToast('축하 메시지가 등록되었어요! ✍️');
+        } else {
+          // 로컬 저장 (백업)
+          saveToLocal(name, message);
+          showToast('메시지가 임시 저장되었습니다. (Firebase 연결 필요)', 'error');
+        }
+        
+        // 폼 초기화
+        nameInput.value = '';
+        passwordInput.value = '';
+        messageInput.value = '';
+        document.getElementById('message-count').textContent = '0';
+        
+      } catch (error) {
+        console.error('메시지 저장 오류:', error);
+        showToast('메시지 등록 중 오류가 발생했습니다.', 'error');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = '✍️ Leave Message';
+      }
+    });
+
+    // 로컬 모드 (Firebase 연결 실패시)
+    function showLocalMode() {
+      console.log('로컬 모드로 전환됩니다.');
+      loadLocalMessages();
+    }
+
+    function loadLocalMessages() {
+      const messages = JSON.parse(localStorage.getItem('weddingMessages') || '[]');
+      const container = document.getElementById('messages-container');
+      container.innerHTML = '';
+      
+      if (messages.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-gray-500">
+            <p>첫 번째 축하 메시지를 남겨주세요! 💌</p>
+            <p class="text-sm mt-2">Firebase 연결이 필요합니다.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      messages.reverse().forEach(message => {
+        const messageElement = createLocalMessageElement(message);
+        container.appendChild(messageElement);
+      });
+    }
+
+    function createLocalMessageElement(message) {
+      const div = document.createElement('div');
+      div.className = 'bg-white p-6 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-black';
+      
+      div.innerHTML = `
+        <div class="flex justify-between items-center mb-3">
+          <span class="font-medium text-modern-black">${escapeHtml(message.name)}</span>
+          <span class="text-sm text-gray-500">${message.date || 'Just now'}</span>
+        </div>
+        <div class="text-gray-700">${escapeHtml(message.message)}</div>
+      `;
+      
+      return div;
+    }
+
+    function saveToLocal(name, message) {
+      const messages = JSON.parse(localStorage.getItem('weddingMessages') || '[]');
+      messages.push({
+        name,
+        message,
+        date: new Date().toLocaleDateString('ko-KR')
+      });
+      localStorage.setItem('weddingMessages', JSON.stringify(messages));
+      loadLocalMessages();
+    }
+
+    // 유틸리티 함수
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // 글로벌 함수로 노출
+    window.loadGuestbookMessages = loadGuestbookMessages;
+    window.isFirebaseConnected = () => isFirebaseConnected;
+  </script>
+
+  <script>
+    // Initialize AOS
+    AOS.init({ duration: 600, once: true, offset: 100 });
+
+    // Initialize Swiper
+    const gallerySwiper = new Swiper('.gallery-swiper', {
+      // Basic settings
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      speed: 800,
+      
+      // Responsive breakpoints
+      slidesPerView: 1,
+      spaceBetween: 30,
+      centeredSlides: true,
+      
+      breakpoints: {
+        640: {
+          slidesPerView: 1.5,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 30,
+        },
+        1024: {
+          slidesPerView: 2.5,
+          spaceBetween: 40,
+        },
+      },
+      
+      // Navigation
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      
+      // Pagination
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        dynamicBullets: true,
+      },
+      
+      // Effects
+      effect: 'slide',
+      grabCursor: true,
+      
+      // Touch settings
+      touchRatio: 1,
+      touchAngle: 45,
+      simulateTouch: true,
+    });
+
+    // Gallery Modal functionality
+    let currentGalleryIndex = 0;
+    const galleryImages = [
+      { src: '/assets/gallery01.jpg', alt: 'Wedding Photo 1', title: 'Photo 01', emoji: '📸' },
+      { src: '/assets/gallery02.jpg', alt: 'Wedding Photo 2', title: 'Photo 02', emoji: '🖤' },
+      { src: '/assets/gallery03.jpg', alt: 'Wedding Photo 3', title: 'Photo 03', emoji: '🤍' },
+      { src: '/assets/gallery04.jpg', alt: 'Wedding Photo 4', title: 'Photo 04', emoji: '💫' },
+      { src: '/assets/gallery05.jpg', alt: 'Wedding Photo 5', title: 'Photo 05', emoji: '✨' },
+      { src: '/assets/gallery06.jpg', alt: 'Wedding Photo 6', title: 'Photo 06', emoji: '🌟' },
+      { src: '/assets/gallery07.jpg', alt: 'Wedding Photo 7', title: 'Photo 07', emoji: '⭐' },
+      { src: '/assets/gallery08.jpg', alt: 'Wedding Photo 8', title: 'Photo 08', emoji: '💎' }
+    ];
+
+    function openGalleryModal(index) {
+      currentGalleryIndex = index;
+      updateModalImage();
+      document.getElementById('gallery-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeGalleryModal() {
+      document.getElementById('gallery-modal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function prevGalleryImage() {
+      currentGalleryIndex = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
+      updateModalImage();
+    }
+
+    function nextGalleryImage() {
+      currentGalleryIndex = (currentGalleryIndex + 1) % galleryImages.length;
+      updateModalImage();
+    }
+
+    function updateModalImage() {
+      const container = document.getElementById('modal-image-container');
+      const currentImage = galleryImages[currentGalleryIndex];
+      container.innerHTML = `
+        <img src="${currentImage.src}" alt="${currentImage.alt}" class="w-full h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="w-full h-full hidden items-center justify-center">
+          <div class="text-center">
+            <div class="text-8xl mb-4">${currentImage.emoji}</div>
+            <div class="text-modern-gray text-xl">${currentImage.title}</div>
+            <div class="text-gray-500 text-sm mt-2">Image not found</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeGalleryModal();
+      }
+    });
+
+    // Close modal on background click
+    document.getElementById('gallery-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeGalleryModal();
+      }
+    });
+
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      
+      // 아이콘과 메시지를 포함한 HTML 생성
+      const icon = type === 'success' ? 
+        '<svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>' :
+        '<svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>';
+      
+      toast.innerHTML = `
+        <div class="flex items-center justify-center">
+          ${icon}
+          <span class="font-medium">${message}</span>
+        </div>
+      `;
+      
+      // 모던한 스타일 설정
+      if (type === 'error') {
+        toast.className = `
+          fixed top-20 left-1/2 transform -translate-x-1/2 z-50 
+          bg-gradient-to-r from-red-500 to-red-600 
+          text-white px-6 py-4 rounded-xl 
+          shadow-toast-error backdrop-blur-sm border border-red-400/30
+          max-w-sm text-center animate-slide-down
+        `.replace(/\s+/g, ' ').trim();
+      } else {
+        toast.className = `
+          fixed top-20 left-1/2 transform -translate-x-1/2 z-50 
+          bg-gradient-to-r from-gray-800 to-black 
+          text-white px-6 py-4 rounded-xl 
+          shadow-toast backdrop-blur-sm border border-gray-600/30
+          max-w-sm text-center animate-slide-down
+        `.replace(/\s+/g, ' ').trim();
+      }
+      
+      toast.classList.remove('hidden');
+      
+      // 사라질 때 애니메이션 추가
+      setTimeout(() => {
+        toast.style.animation = 'slide-up 0.3s ease-in-out forwards';
+        setTimeout(() => {
+          toast.classList.add('hidden');
+          toast.style.animation = '';
+        }, 300);
+      }, type === 'error' ? 4500 : 2700);
+    }
+
+    function downloadCalendar() {
+      const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART:20251214T060000Z
+DTEND:20251214T080000Z
+SUMMARY:결혼식 - 신랑 & 신부
+DESCRIPTION:저희의 결혼식에 참석해 주세요.
+LOCATION:고려스퀘어 웨딩홀
+END:VEVENT
+END:VCALENDAR`;
+      
+      const blob = new Blob([icsContent], { type: 'text/calendar' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'wedding.ics';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('캘린더 파일이 다운로드되었습니다! 📅');
+    }
+
+    function openMap(type) {
+      const address = '고려대 교우회관 웨딩홀';
+      const urls = {
+        naver: `https://map.naver.com/v5/search/${encodeURIComponent(address)}`,
+        kakao: `https://map.kakao.com/link/search/${encodeURIComponent(address)}`,
+        google: `https://maps.google.com/maps?q=${encodeURIComponent(address)}`
+      };
+      window.open(urls[type], '_blank');
+    }
+
+    async function copyAccount(account) {
+      try {
+        await navigator.clipboard.writeText(account);
+        showToast('계좌번호가 복사되었습니다! 📋');
+      } catch (err) {
+        showToast('복사에 실패했습니다.');
+      }
+    }
+
+    function shareKakao() {
+      showToast('카카오톡 공유 기능을 준비 중입니다.');
+    }
+
+    async function shareNative() {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: '우리의 모바일 청첩장',
+            text: '저희의 결혼식에 여러분을 초대합니다.',
+            url: window.location.href
+          });
+        } catch (err) {
+          console.log('Share cancelled');
+        }
+      } else {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          showToast('링크가 복사되었습니다! 📋');
+        } catch (err) {
+          showToast('공유 기능을 사용할 수 없습니다.');
+        }
+      }
+    }
+
+    // Contact functions
+    function makeCall(name, phoneNumber) {
+      // Remove any formatting from phone number
+      const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+      
+      if (confirm(`${name}에게 전화를 걸까요?\n${phoneNumber}`)) {
+        window.open(`tel:${cleanNumber}`, '_self');
+      }
+    }
+
+    function sendMessage(name, phoneNumber) {
+      // Remove any formatting from phone number
+      const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+      
+      if (confirm(`${name}에게 문자 메시지를 보내시겠습니까?\n${phoneNumber}`)) {
+        // For mobile devices, try SMS
+        if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+          window.open(`sms:${cleanNumber}`, '_self');
+        } else {
+          // For desktop, copy number to clipboard
+          navigator.clipboard.writeText(phoneNumber).then(() => {
+            showToast(`${name}의 전화번호가 복사되었습니다: ${phoneNumber}`);
+          }).catch(() => {
+            showToast(`${name}의 전화번호: ${phoneNumber}`);
+          });
+        }
+      }
+    }
+
+    // Message counter
+    document.getElementById('guest-message').addEventListener('input', (e) => {
+      document.getElementById('message-count').textContent = e.target.value.length;
+    });
+
+    // 폼 제출은 Firebase 모듈에서 처리됩니다
+
+    // Smooth scrolling
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html> 

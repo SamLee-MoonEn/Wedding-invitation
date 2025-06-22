@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리의 모바일 청첩장</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="따뜻한 사랑의 이야기를 모바일로 전해드립니다. 저희의 결혼식에 여러분을 초대합니다." />
+  <meta name="keywords" content="결혼식, 청첩장, 모바일 청첩장, 웨딩, 초대장" />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="우리의 모바일 청첩장" />
+  <meta property="og:description" content="따뜻한 사랑의 이야기를 모바일로 전해드립니다. 저희의 결혼식에 여러분을 초대합니다." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./public/assets/wedding-cover.svg" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- DaisyUI CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+  
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./public/wedding-ring.svg" />
+  
+  <!-- Custom Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'serif': ['Noto Serif KR', 'serif'],
+            'display': ['Playfair Display', 'serif'],
+          },
+          colors: {
+            'wedding-gold': '#c6a27e',
+            'wedding-ivory': '#fff7f0',
+            'wedding-rose': '#eec6d6',
+          },
+          backgroundImage: {
+            'wedding-gradient': 'linear-gradient(135deg, #fff7f0 0%, #eec6d6 100%)',
+          }
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    .bg-wedding-gradient {
+      background: linear-gradient(135deg, #fff7f0 0%, #eec6d6 100%);
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .message-card {
+      @apply bg-white p-6 rounded-lg shadow-sm border-l-4 border-wedding-gold;
+    }
+    
+    .swiper-pagination-bullet {
+      background: #c6a27e !important;
+      opacity: 0.5;
+    }
+    
+    .swiper-pagination-bullet-active {
+      opacity: 1 !important;
+    }
+    
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: #c6a27e !important;
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid #c6a27e;
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body class="font-serif bg-wedding-gradient min-h-screen" data-theme="light">
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-wedding-gold/20">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-center space-x-6">
+        <a href="#home" class="text-sm text-wedding-gold hover:text-wedding-gold/80 transition-colors">Home</a>
+        <a href="#info" class="text-sm text-wedding-gold hover:text-wedding-gold/80 transition-colors">예식 정보</a>
+        <a href="#gallery" class="text-sm text-wedding-gold hover:text-wedding-gold/80 transition-colors">갤러리</a>
+        <a href="#account" class="text-sm text-wedding-gold hover:text-wedding-gold/80 transition-colors">마음 전하실 곳</a>
+        <a href="#guestbook" class="text-sm text-wedding-gold hover:text-wedding-gold/80 transition-colors">방명록</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- F-01: Welcome Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center px-4 pt-16">
+      <div class="text-center max-w-md mx-auto" data-aos="fade-up">
+        <div class="mb-8">
+          <img src="./public/assets/wedding-cover.svg" alt="웨딩 커버 사진" class="w-64 h-64 object-cover rounded-full mx-auto shadow-lg border-4 border-white">
+        </div>
+        <h1 class="font-display text-4xl text-wedding-gold mb-4">우리의 특별한 날</h1>
+        <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+          따뜻한 사랑의 이야기를<br>
+          모바일로 전해드립니다.<br>
+          저희의 결혼식에 여러분을 초대합니다.
+        </p>
+        <div class="space-y-2 text-wedding-gold">
+          <p class="font-display text-2xl">신랑 & 신부</p>
+          <p class="text-lg">2025년 12월 14일</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- F-02: Event Info Section -->
+    <section id="info" class="py-20 px-4 bg-white">
+      <div class="container mx-auto max-w-4xl">
+        <h2 class="font-display text-3xl text-center text-wedding-gold mb-12" data-aos="fade-up">예식 정보</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Date & Time -->
+          <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-wedding-ivory p-8 rounded-lg shadow-sm">
+              <h3 class="font-display text-xl text-wedding-gold mb-4">일시</h3>
+              <p class="text-lg mb-2">2025년 12월 14일 일요일일</p>
+              <p class="text-lg mb-4">오후 3시</p>
+              <button id="add-to-calendar" class="btn bg-wedding-gold text-white border-wedding-gold hover:bg-wedding-gold/80 btn-sm">
+                📅 캘린더에 저장
+              </button>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="bg-wedding-ivory p-8 rounded-lg shadow-sm">
+              <h3 class="font-display text-xl text-wedding-gold mb-4">장소</h3>
+              <p class="text-lg mb-2">웨딩홀</p>
+              <p class="text-gray-600 mb-4">고려대스퀘어</p>
+              <div class="flex flex-col space-y-2">
+                <button class="btn btn-outline border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white btn-sm" onclick="openMap('naver')">
+                  네이버 지도
+                </button>
+                <button class="btn btn-outline border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white btn-sm" onclick="openMap('kakao')">
+                  카카오 지도
+                </button>
+                <button class="btn btn-outline border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white btn-sm" onclick="openMap('google')">
+                  구글 지도
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- F-03: Gallery Section -->
+    <section id="gallery" class="py-20 px-4 bg-wedding-gradient">
+      <div class="container mx-auto max-w-4xl">
+        <h2 class="font-display text-3xl text-center text-wedding-gold mb-12" data-aos="fade-up">사진 갤러리</h2>
+        
+        <div class="swiper gallery-swiper overflow-hidden rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img src="./public/assets/gallery1.svg" alt="웨딩 사진 1" class="w-full h-80 object-cover rounded-lg shadow-lg">
+            </div>
+            <div class="swiper-slide">
+              <img src="./public/assets/gallery2.svg" alt="웨딩 사진 2" class="w-full h-80 object-cover rounded-lg shadow-lg">
+            </div>
+            <div class="swiper-slide">
+              <img src="./public/assets/gallery3.svg" alt="웨딩 사진 3" class="w-full h-80 object-cover rounded-lg shadow-lg">
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- F-04: Account Info Section -->
+    <section id="account" class="py-20 px-4 bg-white">
+      <div class="container mx-auto max-w-4xl">
+        <h2 class="font-display text-3xl text-center text-wedding-gold mb-12" data-aos="fade-up">마음 전하실 곳</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Groom Account -->
+          <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-wedding-ivory p-8 rounded-lg shadow-sm">
+              <h3 class="font-display text-xl text-wedding-gold mb-4">신랑측</h3>
+              <p class="text-lg mb-2">OO은행</p>
+              <p class="text-lg mb-4 font-mono">123-456-789012</p>
+              <p class="text-gray-600 mb-4">신랑 이름</p>
+              <button class="btn bg-wedding-gold text-white border-wedding-gold hover:bg-wedding-gold/80 btn-sm" onclick="copyAccount('groom')">
+                📋 계좌번호 복사
+              </button>
+            </div>
+          </div>
+
+          <!-- Bride Account -->
+          <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="bg-wedding-ivory p-8 rounded-lg shadow-sm">
+              <h3 class="font-display text-xl text-wedding-gold mb-4">신부측</h3>
+              <p class="text-lg mb-2">XX은행</p>
+              <p class="text-lg mb-4 font-mono">987-654-321098</p>
+              <p class="text-gray-600 mb-4">신부 이름</p>
+              <button class="btn bg-wedding-gold text-white border-wedding-gold hover:bg-wedding-gold/80 btn-sm" onclick="copyAccount('bride')">
+                📋 계좌번호 복사
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- F-07: Guestbook Section -->
+    <section id="guestbook" class="py-20 px-4 bg-wedding-gradient">
+      <div class="container mx-auto max-w-4xl">
+        <h2 class="font-display text-3xl text-center text-wedding-gold mb-12" data-aos="fade-up">방명록</h2>
+        
+        <!-- Guestbook Form -->
+        <div class="bg-white p-8 rounded-lg shadow-sm mb-8" data-aos="fade-up" data-aos-delay="100">
+          <form id="guestbook-form">
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  이름 *
+                </label>
+                <input type="text" id="guest-name" class="input input-bordered w-full" required>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  비밀번호 (수정/삭제시 필요)
+                </label>
+                <input type="password" id="guest-password" class="input input-bordered w-full">
+              </div>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                축하 메시지 *
+              </label>
+              <textarea id="guest-message" class="textarea textarea-bordered w-full h-24" maxlength="200" required placeholder="따뜻한 축하 메시지를 남겨주세요..."></textarea>
+              <div class="text-right text-sm text-gray-500 mt-1">
+                <span id="message-count">0</span>/200
+              </div>
+            </div>
+            <button type="submit" class="btn bg-wedding-gold text-white border-wedding-gold hover:bg-wedding-gold/80 w-full">
+              💐 축하 메시지 남기기
+            </button>
+          </form>
+        </div>
+
+        <!-- Messages List -->
+        <div id="messages-container" class="space-y-4">
+          <!-- Sample Messages -->
+          <div class="message-card">
+            <div class="flex justify-between items-center mb-3">
+              <span class="font-medium text-wedding-gold">김친구</span>
+              <span class="text-sm text-gray-500">2024년 12월 22일 오전 10:30</span>
+            </div>
+            <div class="text-gray-700 leading-relaxed">결혼을 진심으로 축하드립니다! 두 분의 앞날에 행복이 가득하길 바라요. 💕</div>
+          </div>
+          
+          <div class="message-card">
+            <div class="flex justify-between items-center mb-3">
+              <span class="font-medium text-wedding-gold">박동료</span>
+              <span class="text-sm text-gray-500">2024년 12월 22일 오전 10:25</span>
+            </div>
+            <div class="text-gray-700 leading-relaxed">와! 드디어 결혼하시는군요! 정말 축하드려요. 꼭 참석해서 축하해드릴게요! 🎉</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- F-05: Share Section -->
+    <section class="py-20 px-4 bg-white">
+      <div class="container mx-auto max-w-md text-center">
+        <h2 class="font-display text-2xl text-wedding-gold mb-8" data-aos="fade-up">초대장 공유하기</h2>
+        <div class="space-y-4" data-aos="fade-up" data-aos-delay="100">
+          <button id="share-kakao" class="btn btn-warning w-full">
+            💬 카카오톡으로 공유
+          </button>
+          <button id="share-native" class="btn btn-outline border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white w-full">
+            📱 다른 앱으로 공유
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-8 px-4 bg-wedding-gold text-white text-center">
+    <p class="font-display">Thank you for celebrating with us! 💕</p>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50"></div>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 600,
+      once: true,
+      offset: 100
+    });
+
+    // Initialize Swiper
+    const swiper = new Swiper('.gallery-swiper', {
+      loop: true,
+      autoplay: {
+        delay: 3000,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 1,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+        },
+      },
+    });
+
+    // Utility Functions
+    function showToast(message, type = 'success') {
+      const toastContainer = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bgColor = type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700';
+      toast.className = `alert border rounded-lg p-4 mb-2 ${bgColor}`;
+      toast.innerHTML = `<span>${message}</span>`;
+      
+      toastContainer.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    // F-02: Calendar functionality
+    document.getElementById('add-to-calendar')?.addEventListener('click', () => {
+      const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Wedding Invitation//Event//KO
+BEGIN:VEVENT
+DTSTART:20250701T060000Z
+DTEND:20250701T080000Z
+SUMMARY:결혼식 - 신랑 & 신부
+DESCRIPTION:저희의 결혼식에 참석해 주세요.
+LOCATION:웨딩홀, 서울특별시 강남구
+END:VEVENT
+END:VCALENDAR`;
+      
+      const blob = new Blob([icsContent], { type: 'text/calendar' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'wedding-invitation.ics';
+      link.click();
+      URL.revokeObjectURL(url);
+      
+      showToast('캘린더 파일이 다운로드되었습니다! 📅');
+    });
+
+    // Map functionality
+    window.openMap = function(mapType) {
+      const address = '서울특별시 강남구';
+      const encodedAddress = encodeURIComponent(address);
+      
+      let url;
+      switch(mapType) {
+        case 'naver':
+          url = `https://map.naver.com/v5/search/${encodedAddress}`;
+          break;
+        case 'kakao':
+          url = `https://map.kakao.com/link/search/${encodedAddress}`;
+          break;
+        case 'google':
+          url = `https://maps.google.com/maps?q=${encodedAddress}`;
+          break;
+      }
+      
+      window.open(url, '_blank');
+    };
+
+    // F-04: Account copy functionality
+    window.copyAccount = async function(type) {
+      const accounts = {
+        groom: '123-456-789012',
+        bride: '987-654-321098'
+      };
+      
+      try {
+        await navigator.clipboard.writeText(accounts[type]);
+        showToast('계좌번호가 복사되었습니다! 📋');
+      } catch (err) {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = accounts[type];
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast('계좌번호가 복사되었습니다! 📋');
+      }
+    };
+
+    // Message character counter
+    const messageTextarea = document.getElementById('guest-message');
+    const messageCounter = document.getElementById('message-count');
+
+    messageTextarea?.addEventListener('input', (e) => {
+      const count = e.target.value.length;
+      messageCounter.textContent = count;
+      
+      if (count > 200) {
+        messageCounter.classList.add('text-red-500');
+      } else {
+        messageCounter.classList.remove('text-red-500');
+      }
+    });
+
+    // Guestbook form submission (demo version)
+    document.getElementById('guestbook-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const nameInput = document.getElementById('guest-name');
+      const passwordInput = document.getElementById('guest-password');
+      const messageInput = document.getElementById('guest-message');
+      
+      const name = nameInput.value.trim();
+      const message = messageInput.value.trim();
+      
+      if (!name || !message) {
+        showToast('이름과 메시지를 모두 입력해주세요.', 'error');
+        return;
+      }
+      
+      if (message.length > 200) {
+        showToast('메시지는 200자 이내로 작성해주세요.', 'error');
+        return;
+      }
+      
+      try {
+        const submitButton = e.target.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="loading-spinner"></span> 등록 중...';
+        
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Add message to container (demo)
+        const messagesContainer = document.getElementById('messages-container');
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message-card';
+        messageElement.innerHTML = `
+          <div class="flex justify-between items-center mb-3">
+            <span class="font-medium text-wedding-gold">${name}</span>
+            <span class="text-sm text-gray-500">방금 전</span>
+          </div>
+          <div class="text-gray-700 leading-relaxed">${message}</div>
+        `;
+        messagesContainer.insertBefore(messageElement, messagesContainer.firstChild);
+        
+        // Reset form
+        nameInput.value = '';
+        passwordInput.value = '';
+        messageInput.value = '';
+        messageCounter.textContent = '0';
+        
+        showToast('축하 메시지가 등록되었어요! 💐');
+        
+      } catch (error) {
+        showToast('메시지 등록 중 오류가 발생했습니다.', 'error');
+      } finally {
+        const submitButton = e.target.querySelector('button[type="submit"]');
+        submitButton.disabled = false;
+        submitButton.innerHTML = '💐 축하 메시지 남기기';
+      }
+    });
+
+    // F-05: Share functionality
+    document.getElementById('share-kakao')?.addEventListener('click', () => {
+      showToast('카카오톡 공유 기능을 준비 중입니다.', 'error');
+    });
+
+    document.getElementById('share-native')?.addEventListener('click', async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: '우리의 모바일 청첩장',
+            text: '저희의 결혼식에 여러분을 초대합니다.',
+            url: window.location.href,
+          });
+        } catch (error) {
+          console.log('Share cancelled');
+        }
+      } else {
+        // Fallback: copy link to clipboard
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          showToast('링크가 복사되었습니다! 📋');
+        } catch (error) {
+          showToast('공유 기능을 사용할 수 없습니다.', 'error');
+        }
+      }
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html> 
