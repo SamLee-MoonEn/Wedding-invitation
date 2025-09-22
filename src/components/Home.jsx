@@ -14,7 +14,7 @@ export default function Home(){
   return (
     <section id="home" className="relative min-h-screen flex items-start justify-center overflow-hidden">
       <div className="absolute inset-0">
-        <img src="/assets/cover.jpg" alt="Wedding Cover Photo" className="w-full h-full object-cover translate-y-6 md:translate-y-20" onError={(e)=>{ e.currentTarget.style.display='none'; e.currentTarget.nextElementSibling.style.display='block' }} />
+        <img src="assets/cover.jpg" alt="Wedding Cover Photo" className="w-full h-full object-cover translate-y-6 md:translate-y-20" onError={(e)=>{ e.currentTarget.style.display='none'; e.currentTarget.nextElementSibling.style.display='block' }} />
         <div className="w-full h-full bg-gradient-to-b from-gray-400 to-gray-600 hidden"></div>
       </div>
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
