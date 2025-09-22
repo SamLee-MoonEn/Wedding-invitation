@@ -6,14 +6,14 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 const images = [
-  { src: 'assets/gallery01.jpg', alt: 'Wedding Photo 1', title: 'Photo 01', emoji: '📸' },
-  { src: 'assets/gallery02.jpg', alt: 'Wedding Photo 2', title: 'Photo 02', emoji: '🖤' },
-  { src: 'assets/gallery03.jpg', alt: 'Wedding Photo 3', title: 'Photo 03', emoji: '🤍' },
-  { src: 'assets/gallery04.jpg', alt: 'Wedding Photo 4', title: 'Photo 04', emoji: '💫' },
-  { src: 'assets/gallery05.jpg', alt: 'Wedding Photo 5', title: 'Photo 05', emoji: '✨' },
-  { src: 'assets/gallery06.jpg', alt: 'Wedding Photo 6', title: 'Photo 06', emoji: '🌟' },
-  { src: 'assets/gallery07.jpg', alt: 'Wedding Photo 7', title: 'Photo 07', emoji: '⭐' },
-  { src: 'assets/gallery08.jpg', alt: 'Wedding Photo 8', title: 'Photo 08', emoji: '💎' },
+  { src: '/Wedding-invitation/assets/gallery01.jpg', alt: 'Wedding Photo 1', title: 'Photo 01', emoji: '📸' },
+  { src: '/Wedding-invitation/assets/gallery02.jpg', alt: 'Wedding Photo 2', title: 'Photo 02', emoji: '🖤' },
+  { src: '/Wedding-invitation/assets/gallery03.jpg', alt: 'Wedding Photo 3', title: 'Photo 03', emoji: '🤍' },
+  { src: '/Wedding-invitation/assets/gallery04.jpg', alt: 'Wedding Photo 4', title: 'Photo 04', emoji: '💫' },
+  { src: '/Wedding-invitation/assets/gallery05.jpg', alt: 'Wedding Photo 5', title: 'Photo 05', emoji: '✨' },
+  { src: '/Wedding-invitation/assets/gallery06.jpg', alt: 'Wedding Photo 6', title: 'Photo 06', emoji: '🌟' },
+  { src: '/Wedding-invitation/assets/gallery07.jpg', alt: 'Wedding Photo 7', title: 'Photo 07', emoji: '⭐' },
+  { src: '/Wedding-invitation/assets/gallery08.jpg', alt: 'Wedding Photo 8', title: 'Photo 08', emoji: '💎' },
 ]
 
 export default function Gallery(){
