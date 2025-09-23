@@ -353,5 +353,17 @@
   
   <div id="root"></div>
   
+  <!-- GitHub Pages SPA 라우팅 지원 -->
+  <script>
+    // URL이 해시 라우터 형식이 아닌 경우 리다이렉트
+    (function() {
+      const redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    })();
+  </script>
+  
 </body>
 </html> 

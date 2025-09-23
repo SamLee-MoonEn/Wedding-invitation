@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>우리의 모바일 청첩장</title>
+  <script>
+    // GitHub Pages SPA 해결책: 404 페이지를 메인 페이지로 리다이렉트
+    const path = window.location.pathname;
+    const search = window.location.search;
+    const hash = window.location.hash;
+    
+    // GitHub Pages 서브디렉토리에서 실행되는 경우
+    if (path.includes('/Wedding-invitation/')) {
+      const redirectPath = path.replace('/Wedding-invitation/', '/Wedding-invitation/#/');
+      window.location.replace(redirectPath + search + hash);
+    } else {
+      // 루트에서 실행되는 경우
+      window.location.replace('/#/' + path + search + hash);
+    }
+  </script>
+</head>
+<body>
+  <div>Loading...</div>
+</body>
+</html>
