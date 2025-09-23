@@ -4,17 +4,370 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>우리의 모바일 청첩장</title>
-  <script>
-    // GitHub Pages SPA 새로고침 문제 해결
-    // 현재 URL을 세션 스토리지에 저장하고 메인 페이지로 리다이렉트
-    sessionStorage.redirect = location.href;
-  </script>
-  <meta http-equiv="refresh" content="0;URL='/Wedding-invitation/'">
+  
+  <link rel="icon" type="image/png" href="/Wedding-invitation/assets/favicon.png">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  
+  
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css" />
+  
+  <style>
+    @font-face {
+    font-family: 'Paperozi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-display: swap;
+}
+
+    @font-face {
+    font-family: 'Paperozi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2') format('woff2');
+    font-weight: 200;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Paperozi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Paperozi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Paperozi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Paperozi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Paperozi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Paperozi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Paperozi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2');
+    font-weight: 900;
+    font-display: swap;
+}
+
+    /* 기본 폰트를 Paperozi로 적용 (메인 타이틀 SVG는 별도 스타일 유지) */
+    body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, textarea, label, small, strong {
+      font-family: 'Paperozi', sans-serif;
+    }
+    .font-serif { font-family: 'Paperozi', sans-serif; }
+    .font-display { font-family: 'Paperozi', sans-serif; }
+    .text-modern-black { color: #000000; }
+    .text-modern-gray { color: #333333; }
+    .bg-modern-black { background-color: #000000; }
+    .bg-modern-gray { background-color: #333333; }
+    .bg-modern-light { background-color: #f8f9fa; }
+    .bg-modern-gradient { background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); }
+    .border-modern-black { border-color: #000000; }
+    .border-modern-gray { border-color: #333333; }
+    /* Navigation font size in px */
+    .nav-link { font-size: 14px; transition: color 200ms ease, font-weight 200ms ease; }
+    .nav-link.nav-active { color: #c6a27e !important; font-weight: 700; }
+    
+    html { scroll-behavior: smooth; }
+    
+    /* Swiper Styles */
+    .swiper-pagination-bullet { 
+      background: #000000 !important; 
+      opacity: 0.5;
+      width: 12px !important;
+      height: 12px !important;
+    }
+    .swiper-pagination-bullet-active { 
+      opacity: 1 !important; 
+      background: #000000 !important;
+    }
+    .swiper-button-next, .swiper-button-prev { 
+      color: #000000 !important; 
+      background: rgba(255, 255, 255, 0.9) !important;
+      width: 44px !important;
+      height: 44px !important;
+      border-radius: 50% !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+    .swiper-button-next:hover, .swiper-button-prev:hover {
+      background: rgba(255, 255, 255, 1) !important;
+    }
+    .swiper-button-next::after, .swiper-button-prev::after {
+      font-size: 18px !important;
+      font-weight: bold !important;
+    }
+    
+    /* Modern Gallery Modal */
+    .gallery-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .gallery-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .gallery-modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .gallery-modal-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .gallery-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+    
+    .gallery-modal-close:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+    
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+    
+    .gallery-nav:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .gallery-nav.prev {
+      left: 15px;
+    }
+    
+    .gallery-nav.next {
+      right: 15px;
+    }
+    
+    .gallery-item {
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    
+    .gallery-item:hover {
+      transform: scale(1.02);
+      filter: brightness(0.9);
+    }
+    
+    /* Hero Section Styles */
+    .hero-text {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    
+    .scroll-indicator {
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 53%, 80%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      40%, 43% {
+        transform: translate3d(0, -8px, 0);
+      }
+      70% {
+        transform: translate3d(0, -4px, 0);
+      }
+      90% {
+        transform: translate3d(0, -2px, 0);
+      }
+    }
+    
+    /* Modern Toast Animations */
+    @keyframes slide-down {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -100%);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+    
+    @keyframes slide-up {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+    }
+    
+    .animate-slide-down {
+      animation: slide-down 0.4s ease-out forwards;
+    }
+    
+    /* Toast 컨테이너 기본 스타일 */
+    #toast {
+      transition: all 0.3s ease;
+      -webkit-backdrop-filter: blur(10px);
+              backdrop-filter: blur(10px);
+      font-family: 'Noto Serif KR', serif;
+    }
+    
+    /* Toast 호버 효과 */
+    #toast:hover {
+      transform: translate(-50%, -2px) !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    }
+  </style>
+  
+  
+  
+  <style>
+    :root{
+      --title-duration: 4.5s;
+      --title-stroke: 3;
+      --title-color: #f82f4d;
+    }
+    .svg-title-wrap{ width:min(92vw, 900px); margin:0 auto; }
+    .svg-title{ width:100%; height:auto; }
+    .svg-title text.draw{
+      font-family:'Great Vibes', cursive;
+      font-size: 150px;
+      fill: transparent;
+      stroke: var(--title-color);
+      stroke-width: var(--title-stroke);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      paint-order: stroke;
+      stroke-dasharray: 3000;
+      stroke-dashoffset: 3000;
+      animation: drawTitle var(--title-duration) ease-out forwards;
+    }
+    .svg-title text.fill{
+      font-family:'Great Vibes', cursive;
+      font-size: 150px;
+      fill: var(--title-color);
+      opacity: 0;
+      animation: fillTitle 0.6s ease forwards;
+      animation-delay: calc(var(--title-duration) - 3s);
+    }
+    .subtitle-hidden{ opacity:0; transform: translateY(24px); }
+    .subtitle-visible{ opacity:1; transform: translateY(0); }
+    @keyframes subtitleUp { from{ opacity:0; transform: translateY(24px);} to{ opacity:1; transform: translateY(0);} }
+    .subtitle-show{ animation: subtitleUp 700ms ease-out forwards; }
+    @keyframes drawTitle{ to{ stroke-dashoffset:0; } }
+    @keyframes fillTitle{ to{ opacity:1; } }
+
+    .editable-first { font-weight: 700;}
+    /* Account Modal */
+    .account-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .account-modal.active { display: flex; }
+    .account-modal-content { background: #ffffff; width: min(92vw, 640px); max-height: 80vh; overflow: auto; border-radius: 12px; padding: 24px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+    .account-modal-close { position: absolute; top: 8px; right: 12px; font-size: 24px; line-height: 1; color: #333; }
+  </style>
+  <script type="module" crossorigin src="/Wedding-invitation/assets/index-Cjt9_WPB.js"></script>
+  <link rel="modulepreload" crossorigin href="/Wedding-invitation/assets/ui-DkmDVLj9.js">
+  <link rel="modulepreload" crossorigin href="/Wedding-invitation/assets/vendor-DgvNVrB1.js">
+  <link rel="stylesheet" crossorigin href="/Wedding-invitation/assets/index-CDojn3ty.css">
 </head>
-<body>
-  <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
-    <h2>리다이렉트 중...</h2>
-    <p>잠시만 기다려주세요.</p>
-  </div>
+
+<body class="font-serif bg-modern-gradient min-h-screen">
+  
+  <div id="root"></div>
+  
+  <!-- GitHub Pages SPA 라우팅 지원 -->
+  <script>
+    // 404 페이지에서 저장된 URL 복원
+    (function() {
+      const redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        // URL에서 base path를 제거하고 hash로 변환
+        const baseUrl = '/Wedding-invitation/';
+        if (redirect.includes(baseUrl)) {
+          const redirectPath = redirect.split(baseUrl)[1];
+          if (redirectPath && redirectPath !== '' && !redirectPath.startsWith('#')) {
+            history.replaceState(null, null, baseUrl + '#/' + redirectPath);
+          }
+        }
+      }
+    })();
+  </script>
+  
 </body>
-</html>
+</html> 
