@@ -352,12 +352,19 @@
   
   <!-- GitHub Pages SPA 라우팅 지원 -->
   <script>
-    // URL이 해시 라우터 형식이 아닌 경우 리다이렉트
+    // 404 페이지에서 저장된 URL 복원
     (function() {
       const redirect = sessionStorage.redirect;
       delete sessionStorage.redirect;
       if (redirect && redirect !== location.href) {
-        history.replaceState(null, null, redirect);
+        // URL에서 base path를 제거하고 hash로 변환
+        const baseUrl = '/Wedding-invitation/';
+        if (redirect.includes(baseUrl)) {
+          const redirectPath = redirect.split(baseUrl)[1];
+          if (redirectPath && redirectPath !== '' && !redirectPath.startsWith('#')) {
+            history.replaceState(null, null, baseUrl + '#/' + redirectPath);
+          }
+        }
       }
     })();
   </script>
