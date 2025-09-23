@@ -5,7 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Build outputs
-dist/
+# dist/ - 주석 처리하여 GitHub에 포함
 build/
 .output/
 
