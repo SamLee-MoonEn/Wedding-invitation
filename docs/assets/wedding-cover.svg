@@ -1,7 +1,0 @@
-<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="500" height="500" fill="#fff7f0"/>
-  <circle cx="250" cy="250" r="100" fill="#c6a27e" fill-opacity="0.3"/>
-  <text x="250" y="270" font-family="serif" font-size="24" fill="#c6a27e" text-anchor="middle">웨딩사진</text>
-  <text x="250" y="300" font-family="serif" font-size="18" fill="#c6a27e" text-anchor="middle">Wedding Photo</text>
-  <text x="250" y="330" font-family="serif" font-size="14" fill="#999999" text-anchor="middle">500 x 500</text>
-</svg> 
