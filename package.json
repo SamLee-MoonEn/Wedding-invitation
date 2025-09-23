@@ -2,7 +2,7 @@
   "name": "mobile-wedding-invitation",
   "version": "1.0.0",
   "description": "Mobile Wedding Invitation - 우리의 모바일 청첩장",
-  "homepage": "https://SamLee-MoonEn.github.io/Wedding-invitation/",
+  "homepage": "https://samlee-moonen.github.io/Wedding-invitation/",
   "type": "module",
   "private": true,
   "scripts": {
